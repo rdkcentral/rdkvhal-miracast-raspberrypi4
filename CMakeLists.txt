@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.10)
 find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
-#pkg_check_modules(GSTREAMERBASE REQUIRED gstreamer-app-1.0)
 
 project(MiracastPlayerHal VERSION 1.0.0 LANGUAGES CXX)
 
@@ -21,10 +20,10 @@ endif()
 
 # Add GIT version to the compile flags
 execute_process(
-	COMMAND git rev-parse --short HEAD
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	OUTPUT_VARIABLE GIT_SHA
-	OUTPUT_STRIP_TRAILING_WHITESPACE
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_SHA
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 if (NOT GIT_SHA STREQUAL "")
@@ -59,8 +58,14 @@ add_custom_target(clean-all
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/clean.cmake
 )
 
+# Install the library
 install(TARGETS ${LIBNAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+# Install public header for development package; exclude the private halLogger.h
+install(FILES SoC_MiracastPlayer.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 # Define package configuration variables
@@ -70,12 +75,12 @@ set(PACKAGE_DESCRIPTION "RPI-4 RDKV Miracast HAL Library")
 set(PACKAGE_LIBS "-L${CMAKE_INSTALL_PREFIX}/lib -l${LIBNAME}")
 set(PACKAGE_CFLAGS "-I${CMAKE_INSTALL_PREFIX}/include")
 
-#configure_file(
-#    ${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE_NAME}.pc.in
-#    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.pc
-#    @ONLY
-#)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE_NAME}.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.pc
+    @ONLY
+)
 
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.pc
-#    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
-#)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.pc
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
+)
