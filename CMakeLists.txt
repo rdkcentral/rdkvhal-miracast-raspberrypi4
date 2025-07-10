@@ -59,6 +59,10 @@ add_library(${LIBNAME} SHARED ${SRCS})
 
 target_compile_definitions(${LIBNAME} PRIVATE ${GIT_SHA_DEF})
 
+# Compiler flags, add security flags as well
+set(SECURITY_CXXFLAGS "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fPIE -pie -Wl,-z,relro -Wl,-z,now")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -fPIC -D_REENTRANT -Werror -Wall -Wextra ${SECURITY_CXXFLAGS}")
+
 # Set C++ standard
 set_target_properties(${LIBNAME} PROPERTIES
     CXX_STANDARD 17
