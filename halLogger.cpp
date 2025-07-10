@@ -48,6 +48,8 @@ int HalLogger::getLogFlag() const {
 
 void HalLogger::log(LogLevel level, const char* func, int line, const std::string& msg)
 {
+    (void)func;
+    (void)line;
     std::lock_guard<std::mutex> lock(mtx);
     std::string prefix = logLevelToString(level);
     std::cout << prefix << ":" << msg << std::endl;
