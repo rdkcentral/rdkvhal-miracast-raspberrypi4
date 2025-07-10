@@ -37,10 +37,10 @@ GstElement* SoC_GetAudioSinkProperty(void)
 
 gboolean SoC_ReleaseAudioSinkProperty(GstElement* audioSink)
 {
-	if (audioSink == nullptr) {
-		LOG_ERR("Audio sink is null, cannot release.");
-		return false;
-	}
+    if (audioSink == nullptr) {
+        LOG_ERR("Audio sink is null, cannot release.");
+        return false;
+    }
     LOG_INFO("Not yet implemented.");
     return false;
 }
