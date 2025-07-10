@@ -16,7 +16,7 @@ For a comprehensive list of changes, updates, and release history, refer to the 
 - BitBake/Yocto ready (multilib, dev packaging, pkg-config)
 
 #### For enabling debug logs from hal
-Create `/etc/debug.ini` and add the following line
+Create `/etc/debug.ini` if not present and add the following line
 ```
 LOG.RDK.MIRACAST = LOG DEBUG INFO ERROR
 ```
